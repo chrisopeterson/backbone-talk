@@ -1,0 +1,16 @@
+#todos {
+	width: 800px;
+	margin: 0 auto;
+}
+
+span {
+	cursor:pointer; font-family:sans-serif;
+}
+
+.delete {
+	color: red;
+}
+
+.up, .down {
+	color: blue;
+}
