@@ -11,6 +11,7 @@ $(document).ready(function () {
         }
     });
 
+    // An ordered set of todos
     var TodoCollection = Backbone.Collection.extend({
         model: Todo
     });
@@ -31,9 +32,9 @@ $(document).ready(function () {
         },
 
         render: function () {
-            this.$el.append("<input id='todo-text' />");
-            this.$el.append("<button id='add-todo'>Add item</button>");
-            this.$el.append("<ul id='todo-list'></ul>");
+            //this.$el.append("<input id='todo-text' />");
+            //this.$el.append("<button id='add-todo'>Add item</button>");
+            //this.$el.append("<ul id='todo-list'></ul>");
         }
 
     });
