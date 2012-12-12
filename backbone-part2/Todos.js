@@ -1,4 +1,4 @@
-//
+﻿//
 // Backbone JS TODO Example App - Part 2
 //
 
