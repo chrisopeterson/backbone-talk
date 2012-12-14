@@ -1,21 +1,23 @@
 Backbone.js
 =============
 
-## What is Backbone?
+## Javascript Problems
 
+* It's easy to write bad code in Javascript
+* Code quickly becomes a tangled mess of callbacks
+* The DOM becomes the source for all data
+* Traditional Javascript code is higly coupled and hard to extend and maintain
+
+## Enter Backbone
+
+* Open Source Javascript MV* Framework
 * Backbone.js gives structure to web applications
+* Lightweight and plays well with other Javascript libraries
 * Reduces boilerplate code
-* Separates DOM from page data
+* Separates DOM from data
 * Simplifies state management
-* Plays well with other javscript frameworks and back-end code
-
-## Why do you care?
-
-* Its easy to write bad code in javascript
+* Backbone works out of the box with REST APIs
 * Javascript driven interfaces are awesome
-* Backbone encourages the development of a proper back-end API
-
-## Lets look at code
 
 ## Documentation
 
