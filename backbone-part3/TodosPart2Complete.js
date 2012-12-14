@@ -34,7 +34,7 @@ $(document).ready(function () {
         },
 
         render: function() {
-            this.$el.html(this.model.get("Description") + " &nbsp;&nbsp <span class='delete'>[delete]<span></li>");
+            this.$el.html(this.model.get("Description") + " &nbsp;&nbsp <span class='delete'>[delete]</span></li>");
         },
 
         delete: function() {
