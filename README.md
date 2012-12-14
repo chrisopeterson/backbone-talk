@@ -20,4 +20,7 @@ Backbone.js
 ## Documentation
 
 * http://backbonejs.org/
+* http://addyosmani.github.com/todomvc/
 * http://addyosmani.github.com/backbone-fundamentals/
+* http://gregfranko.com/blog/backbone-dot-js-convincing-the-boss-guide/
+* http://robdodson.me/blog/2012/05/21/exploring-the-backbone-router-and-history-api/
