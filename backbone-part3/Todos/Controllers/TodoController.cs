@@ -19,7 +19,7 @@ namespace Todos.Controllers
         // GET api/Todo
         public IEnumerable<Todo> GetTodos()
         {
-            return db.Todos.AsEnumerable();
+            return db.Todos.OrderBy(i=>i.Order).AsEnumerable();
         }
 
         // GET api/Todo/5
