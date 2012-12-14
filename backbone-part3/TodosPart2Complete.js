@@ -16,7 +16,7 @@ $(document).ready(function () {
     });
 
     //
-    // Todo Itemn view
+    // Todo Item view
     //
     var TodoItemView = Backbone.View.extend({
         tagName: "li",
