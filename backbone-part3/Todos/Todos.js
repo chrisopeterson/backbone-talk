@@ -1,113 +1,105 @@
-﻿// Backbone Js Todo app
-// Reference below enables intellisense for backbone
-/// <reference path="http://code.jquery.com/jquery-1.7.2.js" />
-/// <reference path="http://documentcloud.github.com/backbone/backbone.js" />
-/// <reference path="http://documentcloud.github.com/underscore/underscore.js" />
+﻿//
+// Backbone JS TODO Example App - Part 3
+//
+
 $(document).ready(function () {
 
     var Todo = Backbone.Model.extend({
         defaults: {
-            Description: "",
-            Order: 0,
-            IsComplete: false
-        },
-        idAttribute: "TodoID", // <--- Use this to map the id to an id column in the db
-        initialize: function () {
-            this.bind('change', this.save);
+            Description: ""
         }
     });
 
+    // An ordered set of todos
     var TodoCollection = Backbone.Collection.extend({
-        model: Todo,
-        url: 'api/Todo',
-        comparator: function (todo) {
-            return -todo.get('Order');
-        }
+        model: Todo
     });
 
-
-    // Todo Item
-    var TodoItem = Backbone.View.extend({
+    //
+    // Todo Itemn view
+    //
+    var TodoItemView = Backbone.View.extend({
         tagName: "li",
 
-        initialize: function () {
-            // bindall events  so 'this' references the current view
-            _.bindAll(this, 'render', 'remove', 'orderUp', 'orderDown');
+        initialize: function(todo) {
+            // Use underscore bindall function to bind all 'this' references to the current view
+            _.bindAll(this, 'render', 'delete');
 
-        },
-
-        render: function () {
-            $(this.el).html(this.model.get("Description") + " &nbsp; &nbsp; <input type='checkbox' id='completed' /> &nbsp; &nbsp;"
-                + "<span class='remove' style='cursor:pointer; color:red; font-family:sans-serif;'>[delete]</span>"
-                + " &nbsp; &nbsp; <span class='up'>[UP]</span>"
-                + " &nbsp; &nbsp; <span class='down'>[DOWN]</span>");
-            return this;
+            this.model = todo;
+            this.render();
         },
 
         events: {
-            'click span.remove': 'remove',
-            'click span.up': 'orderUp',
-            'click span.down': 'orderDown'
+            "click span": "delete"
         },
 
-        remove: function () {
+        render: function() {
+            this.$el.html(this.model.get("Description") + " &nbsp;&nbsp <span class='delete'>[delete]<span></li>");
+        },
+
+        delete: function() {
             this.model.destroy(); // <--- Removes model from collection
-            $(this.el).remove();  // <--- Deletes the list item
-        },
-
-        orderUp: function () {
-            this.model.set({ Order: this.model.get("Order") + 1 });
-        },
-
-        orderDown: function () {
-            this.model.set({ Order: this.model.get("Order") - 1 });
+            this.remove();  // <--- Deletes the list item
         }
-    })
+    });
 
+    var TodoCountView = Backbone.View.extend({
+        initialize: function (collection) {
+            // Use underscore bindall function to bind all 'this' references to the current view
+            _.bindAll(this, 'render');
+
+            this.collection = collection;
+            this.collection.bind('add remove', this.render);
+
+            this.render();
+        },
+
+        render: function() {
+            this.$el.html("Count: " + this.collection.length);
+        }
+    });
+    
     //
     // Main App View
     // 
     var AppView = Backbone.View.extend({
 
-        el: $("#todos"),
+        el: $("#todos"), // <--- Element in the DOM that this view is anchored to
+
         initialize: function () {
-            // bindall events  so 'this' references the current view
+            // Use underscore bindall function to bind all 'this' references to the current view
+            _.bindAll(this, 'render', 'addToDo', 'appendToDo');
 
-            _.bindAll(this, 'render', 'addTodo', 'appendToDo');
-
+            // Setup collection and bind events
             this.collection = new TodoCollection();
-            //this.collection.reset(Todos);
-            this.collection.bind('create', this.appendToDo);
-            this.collection.bind('change', this.reset);
+            this.collection.bind('add', this.appendToDo);
 
             this.render();
+        },
+
+        events: {
+            "click button" : "addToDo"
         },
 
         render: function () {
             this.$el.append("<input id='todo-text' />");
             this.$el.append("<button id='add-todo'>Add item</button>");
             this.$el.append("<ul id='todo-list'></ul>");
-            this.collection.each(this.appendToDo);
+            this.$el.append(new TodoCountView(this.collection).el);
         },
 
-        events: {
-            'click button#add-todo': 'addTodo'
-        },
-
-        addTodo: function () {
-            var desc = $('input#todo-text').val();
+        addToDo: function() {
+            var desc = $("input").val();
             var todo = new Todo({ Description: desc });
-
-            this.collection.create(todo);
+            this.collection.add(todo);
         },
 
         appendToDo: function (todo) {
-            var todoView = new TodoItem({ model: todo });
-            $('ul#todo-list', this.el).append(todoView.render().el);
+            $("ul#todo-list").append(new TodoItemView(todo).el);
         }
 
     });
 
+    // Away we go...
     var App = new AppView();
-
 });
